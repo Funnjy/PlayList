@@ -22,10 +22,10 @@ public class Album {
         return false;
     }
 
-    private Song findeSong(String name){
+    private Song findeSong(String name) {
         for (int i = 0; i < albomContent.size(); i++) {
             Song checkedSong = this.albomContent.get(i);
-            if (checkedSong.getName().equals(name)){
+            if (checkedSong.getName().equals(name)) {
                 return checkedSong;
             }
         }
@@ -40,10 +40,4 @@ public class Album {
         return name;
     }
 
-    public void listContent(){
-        System.out.println("Album " + this.name + " contains following songs:" );
-        for (int i = 0; i < albomContent.size(); i++) {
-            System.out.println("Song " + (i+1) + ": " +  albomContent.get(i).getName());
-        }
-    }
 }

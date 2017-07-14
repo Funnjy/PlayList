@@ -9,11 +9,11 @@ public class Main {
     public static void main(String[] args) {
         Album hybridTheory = new Album("Hybrid theory");
 
-        hybridTheory.addSong("Pepercut",3.05);
-        hybridTheory.addSong("OneStepCloser",2.37);
-        hybridTheory.addSong("With you",3.23);
-        hybridTheory.addSong("Points of authority",3.22);
-        hybridTheory.addSong("Crawling",3.31);
+        hybridTheory.addSong("Pepercut", 3.05);
+        hybridTheory.addSong("OneStepCloser", 2.37);
+        hybridTheory.addSong("With you", 3.23);
+        hybridTheory.addSong("Points of authority", 3.22);
+        hybridTheory.addSong("Crawling", 3.31);
 
         Playlist playlist1 = new Playlist("LP - best");
 
@@ -30,101 +30,97 @@ public class Main {
         System.out.println("===PLAYER===");
 
         player(playlist1);
-//
-//        Quit,
-//        next song,
-//        previous song
-//        replay the current song
-
     }
-    private static void player(/*LinkedList playlist*/Playlist playList){
+
+    private static void player(/*LinkedList playlist*/Playlist playList) {
         LinkedList<Song> playlist = playList.getPlaylist();
         Scanner scanner = new Scanner(System.in);
         boolean quit = false;
         boolean playingForward = true;
         ListIterator<Song> listIterator = playlist.listIterator();
 
-        if(playlist.isEmpty()){
+        if (playlist.isEmpty()) {
             System.out.println("No songs in the playlist");
             return;
-        }else {
-            System.out.println("Now playing " + listIterator.next().getName());
+        } else {
+            System.out.println("Now playing " + listIterator.next().toString());
             printMenu();
         }
-        while (!quit){
+        while (!quit) {
             int action = scanner.nextInt();
             scanner.nextLine();
-            switch (action){
+            switch (action) {
                 case 0:
                     System.out.println("Stopping playing songs.");
                     quit = true;
                     break;
                 case 1:
-                    playNext(listIterator,playingForward);
+                    if (!playingForward) {
+                        if (listIterator.hasNext()) {
+                            listIterator.next();
+                        }
+                        playingForward = true;
+                    }
+                    if (listIterator.hasNext()) {
+                        System.out.println("Now playing " + listIterator.next().toString());
+                    } else {
+                        System.out.println("Reached end of the playlist");
+                        playingForward = false;
+                    }
                     break;
                 case 2:
-                    playPrevious(listIterator,playingForward);
+                    if (playingForward) {
+                        if (listIterator.hasPrevious()) {
+                            listIterator.previous();
+                        }
+                        playingForward = false;
+                    }
+                    if (listIterator.hasPrevious()) {
+                        System.out.println("Now playing " + listIterator.previous().toString());
+                    } else {
+                        System.out.println("Reached start of the playlist");
+                        playingForward = true;
+                    }
                     break;
                 case 3:
-                    replayCurrent(listIterator, playingForward);
+                    if (playingForward) {
+                        if (listIterator.hasPrevious()) {
+                            System.out.println("Now playing " + listIterator.previous().toString());
+                            playingForward = false;
+                        } else {
+                            System.out.println("We are at the start of the list.");
+                        }
+                    } else {
+                        if (listIterator.hasNext()) {
+                            System.out.println("Now replaying " + listIterator.next().toString());
+                            playingForward = true;
+                        } else
+                            System.out.println("Reached the end of the list");
+                    }
                     break;
                 case 4:
                     playList.printPlaylist();
+
+                    break;
+                case 5:
+                    listIterator.remove();
+                    if (listIterator.hasNext()) {
+                        System.out.println("Now playing " + listIterator.next());
+                    } else if (listIterator.hasPrevious()) {
+                        System.out.println("Now playing " + listIterator.previous());
+                    }
                     break;
             }
         }
     }
 
-    private static void playNext(ListIterator<Song> iterator, boolean playingForward){
-        if(!playingForward){
-            if (iterator.hasNext()){
-                iterator.next();
-            }
-            playingForward = true;
-        }
-        if (iterator.hasNext()){
-            System.out.println("Now playing " + iterator.next().getName());
-        }else {
-            System.out.println("Reached end of the playlist");
-            playingForward = false;
-        }
-    }
-
-    private static void playPrevious(ListIterator<Song> iterator, boolean playingForward){
-        if (playingForward){
-            if (iterator.hasPrevious()){
-                iterator.previous();
-            }
-            playingForward = false;
-        }
-        if (iterator.hasPrevious()){
-            System.out.println("Now playing " + iterator.previous().getName());
-        }else {
-            System.out.println("Reached start of the playlist");
-            playingForward = true;
-        }
-    }
-
-    private static void replayCurrent(ListIterator<Song> iterator, boolean playingForward){
-        if (playingForward){
-            if (iterator.hasPrevious()){
-                System.out.println("Now playing " + iterator.previous().getName());
-                iterator.next();
-            }
-        }
-        if (!playingForward){
-            if (iterator.hasNext()){
-                System.out.println("Now playing " + iterator.next().getName());
-                iterator.previous();
-            }
-        }
-    }
     private static void printMenu() {
         System.out.println("Available actions:\npress ");
         System.out.println("0 - to quit\n" +
                 "1 - Play nex song\n" +
                 "2 - Play previous song\n" +
                 "3 - Replay song\n" +
-                "4 - List the songs");
+                "4 - List the songs\n" +
+                "5 - Delete current song");
     }
 }

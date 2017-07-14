@@ -15,25 +15,26 @@ public class Playlist {
         this.playlist = new LinkedList<Song>();
     }
 
-    public boolean addSong(Album album, String name){
-        if (album.getSong(name) == null){
+    public boolean addSong(Album album, String name) {
+        if (album.getSong(name) == null) {
             System.out.println("Song \"" + name + "\" does not exist in album \""
                     + album.getName() + "\".");
             return false;
         }
         if (playlist.add(album.getSong(name)))
             return true;
-        else{
+        else {
             System.out.println("Song could not be added to the playlist :(");
             return false;
         }
     }
 
-    public void printPlaylist(){
+
+    public void printPlaylist() {
         Iterator<Song> i = playlist.iterator();
         int o = 1;
-        while (i.hasNext()){
-            System.out.println(o + " track is: " + i.next().getName());
+        while (i.hasNext()) {
+            System.out.println(o + " track is: " + i.next().toString());
             o++;
         }
     }
