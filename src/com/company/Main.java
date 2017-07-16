@@ -1,6 +1,7 @@
 package com.company;
 
-import java.util.LinkedList;
+import java.util.InputMismatchException;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.Scanner;
 
@@ -17,23 +18,25 @@ public class Main {
 
         Playlist playlist1 = new Playlist("LP - best");
 
-        playlist1.addSong(hybridTheory, "Pepercut");
-        playlist1.addSong(hybridTheory, "Crawling");
-        playlist1.addSong(hybridTheory, "With you");
-        playlist1.addSong(hybridTheory, " you");
+        playlist1.addSongToPlaylist(hybridTheory, "Pepercut");
+        playlist1.addSongToPlaylist(hybridTheory, "Crawling");
+        playlist1.addSongToPlaylist(hybridTheory, "With you");
+        playlist1.addSongToPlaylist(hybridTheory, " you");
 
         playlist1.printPlaylist();
 
-
-        //hybridTheory.listContent();
-
         System.out.println("===PLAYER===");
 
-        player(playlist1);
+        try {
+            player(playlist1);
+        } catch (InputMismatchException e) {
+            System.err.println("Given command is not legal.");
+            player(playlist1);
+        }
     }
 
-    private static void player(/*LinkedList playlist*/Playlist playList) {
-        LinkedList<Song> playlist = playList.getPlaylist();
+    private static void player(Playlist playList) {
+        List<Song> playlist = playList.getPlaylist();
         Scanner scanner = new Scanner(System.in);
         boolean quit = false;
         boolean playingForward = true;
@@ -49,6 +52,7 @@ public class Main {
         while (!quit) {
             int action = scanner.nextInt();
             scanner.nextLine();
+
             switch (action) {
                 case 0:
                     System.out.println("Stopping playing songs.");

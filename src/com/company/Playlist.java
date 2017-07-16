@@ -2,6 +2,7 @@ package com.company;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Anton Ilchenko on 12.07.2017.
@@ -15,13 +16,13 @@ public class Playlist {
         this.playlist = new LinkedList<Song>();
     }
 
-    public boolean addSong(Album album, String name) {
-        if (album.getSong(name) == null) {
-            System.out.println("Song \"" + name + "\" does not exist in album \""
+    public boolean addSongToPlaylist(Album album, String songName) {
+        if (album.getSong(songName) == null) {
+            System.out.println("Song \"" + songName + "\" does not exist in album \""
                     + album.getName() + "\".");
             return false;
         }
-        if (playlist.add(album.getSong(name)))
+        if (this.playlist.add(album.getSong(songName)))
             return true;
         else {
             System.out.println("Song could not be added to the playlist :(");
@@ -39,7 +40,7 @@ public class Playlist {
         }
     }
 
-    public LinkedList<Song> getPlaylist() {
+    public List<Song> getPlaylist() {
         return playlist;
     }
 }
